@@ -1,9 +1,9 @@
 Here are the completed fill-in-the-blank answers:
 
 1. JavaScript is a **client**-side scripting language.
-2. You can declare a variable using `let`, `const`, or **var**.
+2. You can declare a variable using let, const, or **var**.
 3. To assign a string to a variable, use quotes like this:
-   `let name = **"John"**;`
+   let name = **"John"**;
 4. The **function** keyword is used to define a function.
 5. To output something in the browser console, you use **console.log**.
 6. The data type that stores true or false values is called **Boolean**.
