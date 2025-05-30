@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Date and Time</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .display {
+            font-size: 1.2em;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        #stopClock {
+            background: #e74c3c;
+        }
+
+        #stopClock:hover {
+            background: #c0392b;
+        }
+
+        .status {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-left: 5px;
+        }
+
+        #timerDisplay {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Date and Time</h1>
+
+    <section id="currentDate">
+        <h2>Current Date/Time</h2>
+        <div class="display" id="currentDateTime"></div>
+    </section>
+
+    <section id="realtimeClock">
+        <h2>Real-Time Clock</h2>
+        <div class="display" id="clockDisplay"></div>
+        <button id="stopClock">Stop Clock</button>
+    </section>
+
+    <section id="dateComparison">
+        <h2>Date Comparison</h2>
+        <div class="display" id="comparisonResult"></div>
+    </section>
+
+    <section id="timer">
+        <h2>Timer (Counts up to 10)</h2>
+        <div class="display" id="timerDisplay">0</div>
+    </section>
+
+    <script>
+        // 1. Log current date/time using new Date()
+        const currentDateElement = document.getElementById('currentDateTime');
+        const now = new Date();
+        currentDateElement.textContent = now.toString();
+
+        // 2. Create a real-time clock with setInterval()
+        const clockDisplay = document.getElementById('clockDisplay');
+        const stopClockButton = document.getElementById('stopClock');
+        
+        function updateClock() {
+            const currentTime = new Date();
+            clockDisplay.textContent = currentTime.toLocaleTimeString();
+        }
+        
+        updateClock();
+        const clockInterval = setInterval(updateClock, 1000);
+        
+        // 3. Add a "Stop Clock" button that stops the interval
+        stopClockButton.addEventListener('click', function() {
+            clearInterval(clockInterval);
+            clockDisplay.textContent += " (stopped)";
+            stopClockButton.disabled = true;
+        });
+
+        // 4. Compare two Date objects and log which is earlier
+        const comparisonResult = document.getElementById('comparisonResult');
+        
+        const date1 = new Date(2023, 0, 15);
+        const date2 = new Date(2023, 3, 20);
+        
+        if (date1 < date2) {
+            comparisonResult.textContent = 
+                `${date1.toDateString()} is earlier than ${date2.toDateString()}`;
+        } else if (date1 > date2) {
+            comparisonResult.textContent = 
+                `${date2.toDateString()} is earlier than ${date1.toDateString()}`;
+        } else {
+            comparisonResult.textContent = "Both dates are the same";
+        }
+
+        // 5. Create a timer that counts up every second (stop at 10)
+        const timerDisplay = document.getElementById('timerDisplay');
+        let seconds = 0;
+        
+        const timerInterval = setInterval(function() {
+            seconds++;
+            timerDisplay.textContent = seconds;
+            
+            if (seconds >= 10) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent += " (reached 10)";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

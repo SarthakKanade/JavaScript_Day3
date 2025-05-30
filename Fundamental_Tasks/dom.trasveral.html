@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+
+        .controls {
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #playBtn {
+            background: #2ecc71;
+        }
+
+        #pauseBtn {
+            background: #e74c3c;
+        }
+
+        #muteBtn {
+            background: #f39c12;
+        }
+
+        #jumpBtn {
+            background: #9b59b6;
+        }
+
+        .time-display {
+            margin-left: auto;
+            font-family: monospace;
+            font-size: 16px;
+            color: #34495e;
+            background: #ecf0f1;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            color: #2c3e50;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dfe6e9;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-player">
+        <h1>Video Player</h1>
+        
+        <video id="myVideo" controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="controls">
+            <button id="playBtn">Play</button>
+            <button id="pauseBtn">Pause</button>
+            <button id="muteBtn">Mute</button>
+            <button id="jumpBtn">Jump to 10s</button>
+            <div class="time-display">
+                <span id="currentTime">00:00</span> / 
+                <span id="duration">00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const jumpBtn = document.getElementById('jumpBtn');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationDisplay = document.getElementById('duration');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTime() {
+            currentTimeDisplay.textContent = formatTime(video.currentTime);
+            if (!isNaN(video.duration)) {
+                durationDisplay.textContent = formatTime(video.duration);
+            }
+        }
+
+        video.addEventListener('timeupdate', updateTime);
+        video.addEventListener('loadedmetadata', updateTime);
+        video.addEventListener('ended', () => {
+            playBtn.textContent = 'Play';
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playBtn.textContent = 'Playing';
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            video.pause();
+            playBtn.textContent = 'Play';
+        });
+
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            muteBtn.textContent = video.muted ? 'Unmute' : 'Mute';
+        });
+
+        jumpBtn.addEventListener('click', () => {
+            video.currentTime = 10;
+        });
+
+        updateTime();
+    </script>
+</body>
+</html>

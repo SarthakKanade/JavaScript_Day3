@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Video Player</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .player-header {
+            padding: 16px 24px;
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .controls {
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #4f46e5;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        button:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        #playBtn {
+            background: #10b981;
+        }
+
+        #playBtn:hover {
+            background: #0d9f6e;
+        }
+
+        #pauseBtn {
+            background: #ef4444;
+        }
+
+        #pauseBtn:hover {
+            background: #dc2626;
+        }
+
+        #muteBtn {
+            background: #f59e0b;
+        }
+
+        #muteBtn:hover {
+            background: #d97706;
+        }
+
+        #jumpBtn {
+            background: #7c3aed;
+        }
+
+        #jumpBtn:hover {
+            background: #6d28d9;
+        }
+
+        .time-display {
+            margin-left: auto;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: #4b5563;
+            background: #e5e7eb;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="video-player">
+        <div class="player-header">Video Player</div>
+        
+        <video id="myVideo">
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="playBtn">
+                <i class="fas fa-play"></i> Play
+            </button>
+            <button id="pauseBtn">
+                <i class="fas fa-pause"></i> Pause
+            </button>
+            <button id="muteBtn">
+                <i class="fas fa-volume-up"></i> Mute
+            </button>
+            <button id="jumpBtn">
+                <i class="fas fa-forward"></i> 10s
+            </button>
+            <div class="time-display">
+                <span id="currentTime">00:00</span> / 
+                <span id="duration">00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const jumpBtn = document.getElementById('jumpBtn');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationDisplay = document.getElementById('duration');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        video.addEventListener('timeupdate', updateTime);
+        video.addEventListener('loadedmetadata', updateTime);
+
+        playBtn.addEventListener('click', () => {
+            video.play();
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            video.pause();
+        });
+
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            muteBtn.innerHTML = video.muted ? '<i class="fas fa-volume-mute"></i> Unmute' : '<i class="fas fa-volume-up"></i> Mute';
+        });
+
+        jumpBtn.addEventListener('click', () => {
+            video.currentTime = 10;
+        });
+        
+        updateTime();
+    </script>
+</body>
+</html>
